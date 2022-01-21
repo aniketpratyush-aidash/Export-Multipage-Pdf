@@ -71,11 +71,11 @@ module.exports.printPDF = async (event) => {
 
 
     //Upload generated PDF to S3 Bucket
-    const responseURL= await upload_to_s3({file: content})
+    const responseURL= await upload_to_s3({file: content,location : "/created"})
 
     browser.close();
     console.log("browser closed");
-    return responseURL;
+    return {status:"Successfully Created Pdf",response : responseURL};
   } catch (err) {
     console.log(err)
     return {status: "Error", statusCode: err.code, message: err.message}
@@ -106,19 +106,22 @@ module.exports.mergePDF = async function(event){
 
     }
     const buf = await mergedPdf.save();
+    const responseURL= await upload_to_s3({file: buf,location : "/merged"})
 
-    let path= 'merged.pdf';
-    fs.open(path, 'w', function(err,fd){
-        fs.write(fd,buf,0,buf.length, null, function(err){
-            fs.close(fd,function(){
-                  console.log('wrote the file successfully');
-                  // return buf;
-              });
-          });
-      });
+    //Code for locally saving the merged PDF
+    
+    // let path= 'merged.pdf';
+    // fs.open(path, 'w', function(err,fd){
+    //     fs.write(fd,buf,0,buf.length, null, function(err){
+    //         fs.close(fd,function(){
+    //               console.log('wrote the file successfully');
+    //               // return buf;
+    //           });
+    //       });
+    //   });
       // throw Error("Internal Error")
       // console.log(buf)
-      return { status: "Success"};
+      return { status: "Successfully Merged Pdf's", response : responseURL};
   } catch (error) {
     console.log(error)
   }

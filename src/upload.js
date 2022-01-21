@@ -2,7 +2,7 @@ const AWS = require("aws-sdk")
 const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,AWS_SESSION_TOKEN } = require("../utils/constants");
 
 
-module.exports.upload_to_s3 = async function({file}){
+module.exports.upload_to_s3 = async function({file,location}){
     try {
         
         const AWS = require("aws-sdk")
@@ -16,8 +16,8 @@ module.exports.upload_to_s3 = async function({file}){
         console.log(awsConfig)
         var s3=new AWS.S3();
         const s3result = await s3.upload({
-            Bucket: 'ivms-testing-pdf1' + "/created",
-            Key: `${"file4"}.pdf`,
+            Bucket: 'ivms-testing-pdf1' + location,
+            Key: `${location==="/created"?"file5":"mergedPDF"}.pdf`,
             Body: file,
             ContentType: "application/pdf",
             ACL: "public-read",
