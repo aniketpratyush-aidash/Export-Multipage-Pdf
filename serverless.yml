@@ -21,16 +21,14 @@ service: basic-serverless-lambda
 frameworkVersion: '2'
 
 custom :
-  bucket : ivms-pdf-test
-  ACCESS_KEY_ID : ASIAVJEIAYXPN3GQKTP2
-  SECRET_ACCESS_KEY: /KrDUZDyoHgjDip1n1h2yglZUdKUelsPxtF8cmya
+  bucket : multipage-pdf-test-artifact-aniket
 
 provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
   stage: dev
-  region: us-east-1
+  region: us-west-2
   # iam:
   #   role:
   #     statements:
@@ -47,23 +45,17 @@ plugins:
 package:
   exclude:
     - node_modules/puppeteer/.local-chromium
+  
 
 functions:
   printPDF:
     handler: src/getPdfContent.printPDF
     events:
-      - httpApi:
-          path: /users/created
-          method: POST
-    environment:
-      ACCESS_KEY_ID: ${self:custom.ACCESS_KEY_ID}
-      SECRET_ACCESS_KEY: ${self:custom.SECRET_ACCESS_KEY}
+      - httpApi: 'POST /users/created'
   mergePDF:
-    handler: src/getPdfContent.mergePDF
+    handler: src/mergingPDF.mergePDF
     events:
-      - httpApi:
-          path: /users/merged
-          method: GET
+      - httpApi: 'GET /users/merged'
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)

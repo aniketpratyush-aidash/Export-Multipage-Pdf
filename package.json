@@ -3,16 +3,13 @@
     "dev": "sls offline"
   },
   "devDependencies": {
+    "puppeteer": "^13.1.1",
     "serverless-offline": "^8.3.1",
     "serverless-plugin-chrome": "^1.0.0-55.3"
   },
   "dependencies": {
-    "@serverless-chrome/lambda": "^1.0.0-57.2",
     "aws-sdk": "^2.1060.0",
     "chrome-aws-lambda": "^10.1.0",
-    "chrome-launcher": "^0.15.0",
-    "pdf-lib": "^1.6.0",
-    "puppeteer": "^13.1.1",
-    "superagent": "^7.1.0"
+    "pdf-lib": "^1.6.0"
   }
 }

@@ -1,0 +1,22 @@
+Serverless: Running "serverless" installed locally (in service node_modules)
+Serverless: Injecting Headless Chrome...
+ 
+ Error ---------------------------------------------------
+ 
+  Error: ENOENT: no such file or directory, unlink '/home/aniket/Learning/pdf_generation/Export-Multipage-Pdf/.build/src/getPdfContent.js'
+ 
+     For debugging logs, run again after setting the "SLS_DEBUG=*" environment variable.
+ 
+  Get Support --------------------------------------------
+     Docs:          docs.serverless.com
+     Bugs:          github.com/serverless/serverless/issues
+     Issues:        forum.serverless.com
+ 
+  Your Environment Information ---------------------------
+     Operating System:          linux
+     Node Version:              16.13.1
+     Framework Version:         2.72.0 (local)
+     Plugin Version:            5.5.3
+     SDK Version:               4.3.0
+     Components Version:        3.18.1
+ 

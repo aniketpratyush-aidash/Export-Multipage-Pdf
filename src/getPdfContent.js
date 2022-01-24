@@ -10,9 +10,9 @@ const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,AWS_SESSION_TOKEN } = require("
 
 //For merging pdfs part
 const { PDFDocument, StandardFonts, rgb }= require('pdf-lib');
-const fs = require('fs');
-const { runMain } = require('module');
-const { pathToFileURL } = require('url');
+// const fs = require('fs');
+// const { runMain } = require('module');
+// const { pathToFileURL } = require('url');
 
 
 
@@ -86,43 +86,3 @@ module.exports.printPDF = async (event) => {
 
 
 
-module.exports.mergePDF = async function(event){
-  try {
-
-
-    const keyNames = await listAllKeys('ivms-testing-pdf1', 'created/', 'merged/');
-    const mergedPdf= await PDFDocument.create();
-
-    for(var i=0;i<keyNames.length;i++){
-      const key = keyNames[i];
-      var data = await download_from_s3({name: key.substring("/created".length)});
-      var pdfBuffer= data.Body;
-
-      const pdf = await PDFDocument.load(pdfBuffer);
-      const copiedPages = await mergedPdf.copyPages(pdf,pdf.getPageIndices());
-      copiedPages.forEach((page)=>{
-          mergedPdf.addPage(page);
-      });
-
-    }
-    const buf = await mergedPdf.save();
-    const responseURL= await upload_to_s3({file: buf,location : "/merged"})
-
-    //Code for locally saving the merged PDF
-    
-    // let path= 'merged.pdf';
-    // fs.open(path, 'w', function(err,fd){
-    //     fs.write(fd,buf,0,buf.length, null, function(err){
-    //         fs.close(fd,function(){
-    //               console.log('wrote the file successfully');
-    //               // return buf;
-    //           });
-    //       });
-    //   });
-      // throw Error("Internal Error")
-      // console.log(buf)
-      return { status: "Successfully Merged Pdf's", response : responseURL};
-  } catch (error) {
-    console.log(error)
-  }
-}
